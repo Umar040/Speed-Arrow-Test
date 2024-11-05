@@ -38,6 +38,7 @@ def wait(screen):
             screen.blit(rupArrow, rupArrow.get_rect().move(0,0))
     pygame.display.flip()
     time.sleep(3)
+    #Clearing the events so that events that are queued do not happen
     pygame.event.clear()
     
 
@@ -50,6 +51,7 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        #Changed back to event.type keydown as key pressed at current time can count 1 input as multiple inputs and adding time.sleep will effect the time of the test
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT:
                 if arrows[0] == 1:
@@ -88,12 +90,15 @@ while running:
     pygame.display.flip()
 
     if len(arrows) == 0:
+        # If there are no more arrows get the time taken to complete
         endTime = time.time() - startTime
         winText = "Congratulations you finished 20 arrows in "+str(endTime)+"!"
         print(winText)
+        #Generate the text render (Text, AntiAlias, Colour) and then blit to screen
         text = font.render(winText,True,(255,255,255))
         screen.blit(text,(0,0))
         pygame.display.flip()
+        #Wait 5 seconds before closing
         time.sleep(5)
         running = False
         
