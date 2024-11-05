@@ -3,7 +3,9 @@ import random
 import time
 
 pygame.init()
+pygame.font.init()
 screen = pygame.display.set_mode((1280,720))
+font = pygame.font.SysFont('Calibri',40)
 clock = pygame.time.Clock()
 running = True
 #Image path for green arrow pointing right
@@ -36,39 +38,39 @@ def wait(screen):
             screen.blit(rupArrow, rupArrow.get_rect().move(0,0))
     pygame.display.flip()
     time.sleep(3)
+    pygame.event.clear()
     
 
 #Generate 20 random arrows
 for x in range(20):
     arrows.append(random.randint(1,4))
-    
+
+startTime = time.time()
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
-    #Gets keys pressed at the current time then runs the checks to see if the correct key is called and then removes or waits depending on the arrow
-    keys = pygame.key.get_pressed()
-        if keys[pygame.K_RIGHT]:
-            if arrows[0] == 1:
-                arrows.pop(0)
-            else:
-                wait(screen)
-        elif keys[pygame.K_DOWN]:
-            if arrows[0] == 2:
-                arrows.pop(0)
-            else:
-                wait(screen)
-        elif keys[pygame.K_LEFT]:
-            if arrows[0] == 3:
-                arrows.pop(0)
-            else:
-                wait(screen)
-        elif keys[pygame.K_UP]:
-            if arrows[0] == 4:
-                arrows.pop(0)
-            else:
-                wait(screen)
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RIGHT:
+                if arrows[0] == 1:
+                    arrows.pop(0)
+                else:
+                    wait(screen)
+            elif event.key == pygame.K_DOWN:
+                if arrows[0] == 2:
+                    arrows.pop(0)
+                else:
+                    wait(screen)
+            elif event.key == pygame.K_LEFT:
+                if arrows[0] == 3:
+                    arrows.pop(0)
+                else:
+                    wait(screen)
+            elif event.key == pygame.K_UP:
+                if arrows[0] == 4:
+                    arrows.pop(0)
+                else:
+                    wait(screen)
         
     screen.fill("black")
     for x in range(len(arrows)):
@@ -85,6 +87,16 @@ while running:
             screen.blit(upArrow, upArrow.get_rect().move(101*x,0))
     pygame.display.flip()
 
+    if len(arrows) == 0:
+        endTime = time.time() - startTime
+        winText = "Congratulations you finished 20 arrows in "+str(endTime)+"!"
+        print(winText)
+        text = font.render(winText,True,(255,255,255))
+        screen.blit(text,(0,0))
+        pygame.display.flip()
+        time.sleep(5)
+        running = False
+        
     clock.tick(60)
     
 pygame.quit()
