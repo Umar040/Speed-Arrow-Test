@@ -92,7 +92,7 @@ while running:
     if len(arrows) == 0:
         # If there are no more arrows get the time taken to complete
         endTime = time.time() - startTime
-        winText = "Congratulations you finished 20 arrows in "+str(endTime)+"!"
+        winText = "Congratulations you finished 20 arrows in "+str(endTime)+" Seconds!"
         print(winText)
         #Generate the text render (Text, AntiAlias, Colour) and then blit to screen
         text = font.render(winText,True,(255,255,255))
